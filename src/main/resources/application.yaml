@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: rest-webservice-demo
+  velocity:
+    resource-loader-path: vt/
+    prefix: /vt/
+    suffix: .vm
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+
+
+server:
+      port: 8888
+
+camel:
+    springboot:
+      consumer-template-cache-size: 1000
+      producer-template-cache-size: 1000
+      jmx-enabled: true
+    defaultthreadpool:
+      poolsize: 10
+      maxpoolsize: 20
+      maxqueuesize: 1000
+      keepaliveTime: 60
+      rejectpolicy: CallerRuns
+
+ws:
+  gta:
+    endpoint:
+      url: http://localhost:8080/gta
+      logging:
+        enable: true
+
+info:
+  build:
+    artifact: '@project.artifactId@'
+    name: '@project.name@'
+    version: '@project.artifactId@'
+    description: '@project.description@'
