@@ -6,47 +6,40 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.4.2.RELEASE</version>
+		<artifactId>common-parent-pom</artifactId>
+		<groupId>com.att.canopi.ms</groupId>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-
-	<distributionManagement>
-		<repository>
-			<id>Amdocs Nexus</id>
-			<name>Amdocs Nexus</name>
-			<url>http://indlin460.corp.amdocs.com:8081/nexus/content/repositories/releases/</url>
-		</repository>
-	</distributionManagement>
-
 	<properties>
+		<swagger.directory>${basedir}/target/classes/META-INF/resources/swagger</swagger.directory>
+		<icd.file>service.json</icd.file>
+		<icd.package>com.att.inventory.ms.validation.nte.service.rs</icd.package>
 		<java.version>1.8</java.version>
 		<docker.registry>zlp11313.vci.att.com:5100</docker.registry>
 		<build.number>local</build.number>
 		<kube.namespace>com-att-inventory-ms</kube.namespace>
+		<service.account>ajsc-svc-account</service.account>
 		<namespace>com.att.inventory.ms</namespace>
+		<sdk.java.camel.rest>6.2.0.7</sdk.java.camel.rest>
+		<springframework.version>4.3.4.RELEASE</springframework.version>
+		<project.scm.id>git-server</project.scm.id>
+		<camel.version>2.18.0</camel.version>
+		<velocity.version>1.7</velocity.version>
+		<velocity.tools.version>2.0</velocity.tools.version>
+		<canopi.ms.common.version>0.0.1-SNAPSHOT</canopi.ms.common.version>
 	</properties>
+
 
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<groupId>com.att.ajsc</groupId>
+			<artifactId>sdk-java-camel-rest</artifactId>
 		</dependency>
+
 		<dependency>
-			<!-- used for metrics like status, health etc -->
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		<dependency>
-			<!-- used for unit tests -->
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.swagger</groupId>
-			<artifactId>swagger-core</artifactId>
-			<version>1.5.3</version>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.4</version>
 		</dependency>
 	</dependencies>
 
@@ -55,26 +48,8 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
-					</execution>
-				</executions>
 				<configuration>
-					<mainClass>com.boot.application.Application</mainClass>
-					<layout>ZIP</layout>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-					<fork>true</fork>
-					<executable>C:\Program Files\Java\jdk1.8.0_131\bin\javac</executable>
+					<skip>true</skip>
 				</configuration>
 			</plugin>
 		</plugins>

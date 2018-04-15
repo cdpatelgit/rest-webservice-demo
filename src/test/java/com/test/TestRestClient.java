@@ -19,6 +19,8 @@ import com.rest.post.client.NotifyDMaapServiceImpl;
 
 import io.swagger.util.Json;
 
+import java.util.Collections;
+
 @ContextConfiguration(classes = {Application.class, TestConfiguration.class,NotifyDMaapServiceImpl.class})
 @ComponentScan(basePackages = {"com.rest"})
 @RunWith(SpringRunner.class)
@@ -50,7 +52,7 @@ public class TestRestClient {
 		
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:7070/value/hello");
 		restTemplate.postForEntity(builder.build().encode().toUri(), "Hi", String.class);
-		
+
 		Json.prettyPrint("");
 	}
 	
