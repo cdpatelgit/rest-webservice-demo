@@ -10,10 +10,10 @@ pipeline{
            }
         }
 
-        stage('Deployment Stage'){
+        stage('Test Stage'){
                 steps{
                     WithMaven(maven : 'Maven-3.5.0'){
-                        sh 'mvn deploy'
+                        sh 'mvn test'
                      }
                    }
         }
