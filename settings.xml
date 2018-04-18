@@ -1,0 +1,83 @@
+<settings>
+        <mirrors>
+             <mirror>
+                        <id>Amdocs Nexus</id>
+                        <mirrorOf>Amdocs Nexus</mirrorOf>
+                        <url>http://indlin460.corp.amdocs.com:8081/nexus/content/repositories/releases</url>
+                </mirror>
+                <mirror>
+                        <!--This sends everything else to /public -->
+                        <id>ATT Nexus</id>
+                        <mirrorOf>*</mirrorOf>
+                        <url>http://ipagbld05.snt.bst.bls.com:5125/nexus/content/groups/public</url>
+                </mirror>
+                <mirror>
+                        <id>central</id>
+                        <mirrorOf>central</mirrorOf>
+                        <url>http://mavencentral.it.att.com:8084/nexus/content/groups/att-public-group</url>
+                </mirror>
+        </mirrors>
+        <proxies> </proxies>
+        <profiles>
+                <profile>
+                        <id>nexus</id>
+                        <!--Enable snapshots for the built in central repo to direct -->
+                        <!--all requests to nexus via the mirror -->
+                        <repositories>
+                                <repository>
+                                        <id>Amdocs Nexus</id>
+                                        <name>Amdocs Nexus</name>
+                                        <url>http://indlin460.corp.amdocs.com:8081/nexus/content/repositories/releases/</url>
+                                        <releases>
+                                                <enabled>true</enabled>
+                                                <updatePolicy>always</updatePolicy>
+                                        </releases>
+                                        <snapshots>
+                                                <enabled>false</enabled>
+                                        </snapshots>
+                                </repository>
+                                <repository>
+                                        <id>ATT Nexus</id>
+                                        <name>ATT Nexus</name>
+                                        <url>http://ipagbld05.snt.bst.bls.com:5125/nexus/content/groups/public</url>
+                                        <releases>
+                                                <enabled>true</enabled>
+                                                <updatePolicy>always</updatePolicy>
+                                        </releases>
+                                        <snapshots>
+                                                <enabled>false</enabled>
+                                        </snapshots>
+                               </repository>
+                                <repository>
+                                        <id>central</id>
+                                        <url>http://mavencentral.it.att.com:8084/nexus/content/groups/att-public-group</url>
+                                        <releases>
+                                                <enabled>true</enabled>
+                                        </releases>
+                                        <snapshots>
+                                                <enabled>true</enabled>
+                                        </snapshots>
+                                </repository>
+                        </repositories>
+                        <pluginRepositories>
+                                <pluginRepository>
+                                        <id>central</id>
+                                        <url>http://mavencentral.it.att.com:8084/nexus/content/groups/att-public-group</url>
+                                        <releases>
+                                                <enabled>true</enabled>
+                                        </releases>
+                                        <snapshots>
+                                                <enabled>true</enabled>
+                                        </snapshots>
+                                </pluginRepository>
+                        </pluginRepositories>
+                        <properties>
+                                <app_context_root>idisgui</app_context_root>
+                        </properties>
+                </profile>
+        </profiles>
+
+        <activeProfiles>
+                <activeProfile>nexus</activeProfile>
+        </activeProfiles>
+</settings>
