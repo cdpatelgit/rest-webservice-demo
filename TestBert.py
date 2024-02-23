@@ -1,51 +1,36 @@
+from transformers import BertTokenizer, BertForSequenceClassification
 import torch
-from transformers import BertTokenizer, BertModel
-from torch.utils.data import Dataset, DataLoader
 
-# Sample dataset
-class EmployeeDataset(Dataset):
-    def __init__(self, ids, names, tokenizer, max_length=64):
-        self.ids = ids
-        self.names = names
-        self.tokenizer = tokenizer
-        self.max_length = max_length
+# Sample data (employee ID and name pairs)
+employee_data = [
+    {"id": "001", "name": "John Doe"},
+    {"id": "002", "name": "Jane Smith"},
+    # Add more data as needed
+]
 
-    def __len__(self):
-        return len(self.ids)
+# Preparing data for BERT
+texts = [f"Employee ID: {data['id']} Employee Name: {data['name']}" for data in employee_data]
+labels = [int(data['id']) for data in employee_data]  # Using employee ID as labels
 
-    def __getitem__(self, idx):
-        id_str = str(self.ids[idx])
-        name = str(self.names[idx])
-        inputs = self.tokenizer.encode_plus(
-            id_str,
-            name,
-            add_special_tokens=True,
-            max_length=self.max_length,
-            padding='max_length',
-            truncation=True
-        )
-        return {
-            'input_ids': torch.tensor(inputs['input_ids'], dtype=torch.long),
-            'attention_mask': torch.tensor(inputs['attention_mask'], dtype=torch.long)
-        }
-
-# Example data
-employee_ids = [1, 2, 3, 4]
-employee_names = ["John Doe", "Jane Smith", "Bob Johnson", "Alice Williams"]
-
-# Initialize BERT tokenizer and model
+# Load BERT tokenizer and model
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-model = BertModel.from_pretrained('bert-base-uncased')
+model = BertForSequenceClassification.from_pretrained('bert-base-uncased', num_labels=len(employee_data))
 
-# Create dataset and dataloader
-dataset = EmployeeDataset(employee_ids, employee_names, tokenizer)
-dataloader = DataLoader(dataset, batch_size=2, shuffle=True)
+# Tokenize input texts
+inputs = tokenizer(texts, padding=True, truncation=True, return_tensors="pt")
 
-# Dummy training loop (replace with your actual training loop)
-for batch in dataloader:
-    input_ids = batch['input_ids']
-    attention_mask = batch['attention_mask']
+# Convert labels to tensor
+labels = torch.tensor(labels)
 
-    # Forward pass through the model
-    outputs = model(input_ids, attention_mask=attention_mask)
-    # Your training code goes here
+# Fine-tune BERT model
+optimizer = torch.optim.AdamW(model.parameters(), lr=1e-5)
+model.train()
+optimizer.zero_grad()
+
+outputs = model(**inputs, labels=labels)
+loss = outputs.loss
+loss.backward()
+optimizer.step()
+
+# Save the fine-tuned model
+model.save_pretrained("fine_tuned_bert_employee_model")
