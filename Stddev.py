@@ -1,23 +1,28 @@
+
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 
-# Load the CSV file into a DataFrame
-df = pd.read_csv('revenue_data.csv')
+# Load the data from CSV file
+data = pd.read_csv('revenue_data.csv')
 
-# Convert the date column to datetime format
-df['Date'] = pd.to_datetime(df['Date'])
+# Assuming the CSV file has columns 'Date' and 'Revenue'
+dates = pd.to_datetime(data['Date'])
+revenue = data['Revenue']
 
-# Sort the DataFrame by date
-df = df.sort_values(by='Date')
+# Calculate the standard deviation
+std_dev = np.std(revenue)
 
-# Calculate the rolling 30-day standard deviation of revenue
-rolling_std = df['Revenue'].rolling(window=30).std()
-
-# Plot the rolling standard deviation
+# Plot the bar chart
 plt.figure(figsize=(10, 6))
-plt.plot(df['Date'], rolling_std, color='blue')
-plt.title('30-Day Sales Revenue Standard Deviation')
+plt.bar(dates, revenue, color='blue', alpha=0.7)
 plt.xlabel('Date')
-plt.ylabel('Standard Deviation')
-plt.grid(True)
+plt.ylabel('Revenue')
+plt.title('30 Days Sales Revenue with Standard Deviation')
+plt.axhline(y=np.mean(revenue), color='r', linestyle='-', linewidth=1, label='Mean Revenue')
+plt.axhline(y=np.mean(revenue) + std_dev, color='g', linestyle='--', linewidth=1, label='Mean + Std Dev')
+plt.axhline(y=np.mean(revenue) - std_dev, color='g', linestyle='--', linewidth=1, label='Mean - Std Dev')
+plt.legend()
+plt.xticks(rotation=45)
+plt.tight_layout()
 plt.show()
